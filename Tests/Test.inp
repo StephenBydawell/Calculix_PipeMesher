@@ -1,4 +1,4 @@
-*INCLUDE, INPUT=Mesh.inp
+*INCLUDE, INPUT=/home/stephen/Projects/Calculix_PipeMesher/Tests/Mesh.inp
 
 *PHYSICAL CONSTANTS, ABSOLUTE ZERO=0, STEFAN BOLTZMANN=5.669E-8
 

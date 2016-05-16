@@ -13,6 +13,7 @@ import re
 
 from Pipe_Mesh_Function import pipe_mesh
 from Read_frd import readfrd
+from Aux_results import Aux_results
 
 length = 8
 thickness = 4
