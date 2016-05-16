@@ -30,8 +30,8 @@ pipe_mesh(direc,length, thickness, radial, section, r, quad, reduced)
 
 #meshfile = direc+"Mesh_" + str(length) + "x" + str(thickness) + "x" + str(2*radial) + "_" + elestr +interstr +".inp"
     
-os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Mesh_Refinement/Tests/Test")
-
+#os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Mesh_Refinement/Tests/Test")
+os.system("/home/stephen/Documents/CalculiXLauncher-02/bin/ccx29 /home/stephen/Projects/Calculix_PipeMesher/Tests/Test")
 
 
 resultsfile = direc+'Test.frd'
