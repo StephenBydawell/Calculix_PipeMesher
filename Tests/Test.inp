@@ -22,8 +22,8 @@
 Nall,293.15
 *AMPLITUDE,NAME=A1
 0.,.7,600.,1.
-**MPC
-**PLANE,Outlet
+*MPC
+PLANE,Outlet
 
 *STEP
 *HEAT TRANSFER
