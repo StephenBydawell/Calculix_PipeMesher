@@ -19,22 +19,32 @@ from Aux_results import Aux_results
 length = 8
 thickness = 1
 radial = 10
+n = 2*radial
 
-section = 0
+section = 2
 r = 1.4
 
-quad = 1
+quad = 0
 reduced = 0
 
 direc = "Tests/"
 
-num_tests = 12
+if quad == 1:
+    elestr = "C3D20"
+else:
+    elestr = "C3D8"
+if reduced == 1:
+    interstr = "R"
+else:
+    interstr = "F"
+
+num_tests = 8
 Dall_max = np.zeros((num_tests))
 Von_Mises_max = np.zeros((num_tests))
 
 for i in range(num_tests):
     
-    thickness = i +1
+    thickness = i + 2
 
     pipe_mesh(direc,length, thickness, radial, section, r, quad, reduced)
     
@@ -64,8 +74,9 @@ for i in range(num_tests):
     Dall_max[i] = Dall_df.loc[Dall_df['Time'] == 600]['Utot'].max()
     Von_Mises_max[i] = Von_Mises_df.loc[Von_Mises_df['Time'] == 600]['Von Mises Stress'].max()
     
-   # Sxx_max =  stresses_df.loc[stresses_df['Time'] == 600]['Sxx'].max()
-    #Sxx_min =  stresses_df.loc[stresses_df['Time'] == 600]['Sxx'].min()
-    
-plt.plot(Von_Mises_max)
+#plt.plot(Von_Mises_max)
+        
+string_name = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)
+
+np.save(string_name,Von_Mises_max,allow_pickle = True)
 
