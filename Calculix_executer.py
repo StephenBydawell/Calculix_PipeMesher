@@ -24,7 +24,7 @@ n = 2*radial
 section = 2
 r = 1.4
 
-quad = 0
+quad = 1
 reduced = 0
 
 direc = "Tests/"
@@ -38,23 +38,23 @@ if reduced == 1:
 else:
     interstr = "F"
 
-num_tests = 8
+num_tests = 1
 Dall_max = np.zeros((num_tests))
 Von_Mises_max = np.zeros((num_tests))
 
 for i in range(num_tests):
     
-    thickness = i + 2
+    thickness = i + 4
 
     pipe_mesh(direc,length, thickness, radial, section, r, quad, reduced)
     
     #meshfile = direc+"Mesh_" + str(length) + "x" + str(thickness) + "x" + str(2*radial) + "_" + elestr +interstr +".inp"
         
-    #os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Mesh_Refinement/Tests/Test")
-    os.system("/home/stephen/Documents/CalculiXLauncher-02/bin/ccx29 /home/stephen/Projects/Calculix_PipeMesher/Tests/Test")
+    os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Calculix_PipeMesher/Tests/Test2")
+    #os.system("/home/stephen/Documents/CalculiXLauncher-02/bin/ccx29 /home/stephen/Projects/Calculix_PipeMesher/Tests/Test")
     
     
-    resultsfile = direc+'Test.frd'
+    resultsfile = direc+'Test2.frd'
     selecttime = None
     
     time,disps,temps,stresses,strains = readfrd(resultsfile)
