@@ -6,10 +6,8 @@ Created on Thu May  5 08:59:18 2016
 """
 
 import numpy as np
-import subprocess as sp
 import os
 import pandas as pd
-import re
 import matplotlib.pyplot as plt
 
 from Pipe_Mesh_Function import pipe_mesh

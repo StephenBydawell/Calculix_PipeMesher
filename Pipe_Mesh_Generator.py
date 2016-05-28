@@ -44,14 +44,14 @@ else:
     t = 29.0
     l = 1000.0
 
-    length = 3
-    thickness = 2
-    radial = 6
+    length = 5
+    thickness = 5
+    radial = 1
     
-    section = 0
+    section = 2
     r = 1.2
     
-    quad = 0
+    quad = 1
     reduced = 0
 
 #Secodanry inputs are defined
