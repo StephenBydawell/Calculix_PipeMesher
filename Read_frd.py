@@ -70,6 +70,7 @@ def readfrd(resultsfile,selecttime=None):
     disps = []
     stresses = []
     strains = []
+    pe = []
     infile = initiate(resultsfile)
     
     while True:
@@ -132,13 +133,23 @@ def readfrd(resultsfile,selecttime=None):
                         float(splitline[3]),float(splitline[4]),float(splitline[5]),
                         float(splitline[6]),float(splitline[7])]
                         strains.append(E)
+                        
+                if mode == 'PE':
+                    skipline(infile,1)
+                    while True:
+                        line = infile.readline()
+                        splitline = readchar(line)
+                        if splitline[0] == '-3':
+                            break
+                        PE = [time,float(splitline[1]),float(splitline[2])]
+                        pe.append(PE)
                                
         splitline = line.split()
         
         if splitline[0] == '9999':
             break
         
-    return time, disps, temps, stresses, strains
-
+    return time, disps, temps, stresses, strains, pe
+    print "\nYour calculix.frd file has been read."
 
 #time,disps,temps,stresses,strains = readfrd(infile,selecttime)

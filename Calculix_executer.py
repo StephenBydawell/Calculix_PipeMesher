@@ -9,6 +9,7 @@ import numpy as np
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import time
 
 from Pipe_Mesh_Function import pipe_mesh
 from Read_frd import readfrd
@@ -23,7 +24,7 @@ section = 2
 r = 1.4
 
 quad = 1
-reduced = 0
+reduced = 1
 
 direc = "Tests/"
 
@@ -36,45 +37,54 @@ if reduced == 1:
 else:
     interstr = "F"
 
-num_tests = 1
+num_tests = 8
 Dall_max = np.zeros((num_tests))
 Von_Mises_max = np.zeros((num_tests))
+PE_max = np.zeros((num_tests))
+T = np.zeros((num_tests))
 
 for i in range(num_tests):
-    
-    thickness = i + 4
+    start = time.time()
+    thickness = i + 2
 
     pipe_mesh(direc,length, thickness, radial, section, r, quad, reduced)
     
     #meshfile = direc+"Mesh_" + str(length) + "x" + str(thickness) + "x" + str(2*radial) + "_" + elestr +interstr +".inp"
         
-    os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Calculix_PipeMesher/Tests/Test2")
+    os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Calculix_PipeMesher/Tests/Test5")
     #os.system("/home/stephen/Documents/CalculiXLauncher-02/bin/ccx29 /home/stephen/Projects/Calculix_PipeMesher/Tests/Test")
+    print "\nSystem solved."
     
-    
-    resultsfile = direc+'Test2.frd'
+    resultsfile = direc+'Test5.frd'
     selecttime = None
     
-    time,disps,temps,stresses,strains = readfrd(resultsfile)
+    timestamp,disps,temps,stresses,strains,pe = readfrd(resultsfile)
     
-    Dall, Von_Mises, Principal = Aux_results(time,disps,temps,stresses,strains)
+    Dall, Von_Mises, Principal = Aux_results(timestamp,disps,temps,stresses,strains)
     
     
     disps_df = pd.DataFrame(disps, columns=['Time', 'Node', 'dx', 'dy', 'dz'])
     temps_df = pd.DataFrame(temps, columns=['Time', 'Node', 'T'])
     stresses_df = pd.DataFrame(stresses, columns=['Time', 'Node', 'Sxx', 'Syy', 'Szz', 'Sxy', 'Sxz', 'Syz'])
     strains_df = pd.DataFrame(strains, columns=['Time', 'Node', 'Exx', 'Eyy', 'Ezz', 'Exy', 'Exz', 'Eyz'])
+    PE_df = pd.DataFrame(pe, columns=['Time', 'Node', 'PE'])
     
     Dall_df = pd.DataFrame(Dall, columns=['Time', 'Node', 'Utot'])
     Von_Mises_df = pd.DataFrame(Von_Mises, columns=['Time', 'Node', 'Von Mises Stress'])
     Principal_df = pd.DataFrame(Principal, columns=['Time', 'Node', 'P1','P2','P3'])
     
-    Dall_max[i] = Dall_df.loc[Dall_df['Time'] == 600]['Utot'].max()
-    Von_Mises_max[i] = Von_Mises_df.loc[Von_Mises_df['Time'] == 600]['Von Mises Stress'].max()
+    Dall_max[i] = Dall_df.loc[Dall_df['Time'] == timestamp]['Utot'].max()
+    Von_Mises_max[i] = Von_Mises_df.loc[Von_Mises_df['Time'] == timestamp]['Von Mises Stress'].max()
+    PE_max[i] = PE_df.loc[PE_df['Time'] == timestamp]['PE'].max()
     
+    end = time.time()
+    T[i] = (end - start)
 #plt.plot(Von_Mises_max)
+    print "\nTest finished in: " + str(T[i]) + " seconds."
         
-string_name = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)
+string_name_vm = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)+"_vm"
+string_name_pe = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)+"_pe"
 
-np.save(string_name,Von_Mises_max,allow_pickle = True)
+np.save(string_name_vm,Von_Mises_max,allow_pickle = True)
+np.save(string_name_pe,PE_max,allow_pickle = True)
 
