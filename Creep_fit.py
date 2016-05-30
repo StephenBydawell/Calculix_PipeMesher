@@ -20,6 +20,8 @@ e773 = []
 s773 = []
 A =[]
 n = []
+A3 =[]
+n3 = []
 
 infile = open('Data1', 'r')
 
@@ -38,13 +40,21 @@ while True:
 e873 = np.array(e873)/3600
 s873 = np.array(s873)
 
-Xtrain = np.log(s873)
-Ytrain = np.log(e873)
+Xtrain = np.log(s873[8:-1])
+Ytrain = np.log(e873[8:-1])
 
 slope, intercept, r_value, p_value, std_err = stats.linregress(Xtrain,Ytrain)
 
 A.append(np.exp(intercept))
 n.append(slope)
+
+Xtrain = np.log(s873[1:8])
+Ytrain = np.log(e873[1:8])
+
+slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(Xtrain,Ytrain)
+
+A3.append(np.exp(intercept2))
+n3.append(slope2)
 
 infile = open('Data2', 'r')
 
@@ -63,13 +73,21 @@ while True:
 e823 = np.array(e823)/3600
 s823= np.array(s823)
 
-Xtrain = np.log(s823)
-Ytrain = np.log(e823)
+Xtrain = np.log(s823[5:-1])
+Ytrain = np.log(e823[5:-1])
 
 slope, intercept, r_value, p_value, std_err = stats.linregress(Xtrain,Ytrain)
 
 A.append(np.exp(intercept))
 n.append(slope)
+
+Xtrain = np.log(s823[1:5])
+Ytrain = np.log(e823[1:5])
+
+slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(Xtrain,Ytrain)
+
+A3.append(np.exp(intercept2))
+n3.append(slope2)
 
 infile = open('Data3', 'r')
 
@@ -88,13 +106,24 @@ while True:
 e773 = np.array(e773)/3600
 s773 = np.array(s773)
 
-Xtrain = np.log(s773)
-Ytrain = np.log(e773)
+Xtrain = np.log(s773[3:-1])
+Ytrain = np.log(e773[3:-1])
 
 slope, intercept, r_value, p_value, std_err = stats.linregress(Xtrain,Ytrain)
 
 A.append(np.exp(intercept))
 n.append(slope)
+
+Xtrain = np.log(s823[1:3])
+Ytrain = np.log(e823[1:3])
+
+slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(Xtrain,Ytrain)
+
+A3.append(np.exp(intercept2))
+n3.append(slope2)
+
+n3[2] = n3[1]
+A3[2] = 1.2e-26
 
 A2 = [0]*3
 n2 = [0]*3
@@ -109,8 +138,8 @@ S1 = np.arange(180., 400., 2)
 S2 = np.arange(220, 400., 2)
 S3 = np.arange(250., 400., 2)
 S11 = np.arange(60., 180., 2)
-S22 = np.arange(60., 250., 2)
-S33 = np.arange(60., 220., 2)
+S22 = np.arange(60., 220., 2)
+S33 = np.arange(60., 250., 2)
 
 fig, ax = plt.subplots()
 plt.loglog(s873,e873,'kd',label='T = 873K') 
@@ -119,16 +148,16 @@ plt.loglog(s773,e773,'rd',label='T = 773K')
 plt.loglog(S1,A[0]*S1**(n[0]),'r-') 
 plt.loglog(S2,A[1]*S2**(n[1]),'r-') 
 plt.loglog(S3,A[2]*S3**(n[2]),'r-') 
-plt.loglog(S11,A2[0]*S11**(n2[0]),'r-') 
-plt.loglog(S22,A2[1]*S22**(n2[1]),'r-') 
-plt.loglog(S33,A2[2]*S33**(n2[2]),'r-') 
+plt.loglog(S11,A3[0]*S11**(n3[0]),'r-') 
+plt.loglog(S22,A3[1]*S22**(n3[1]),'r-') 
+plt.loglog(S33,A3[2]*S33**(n3[2]),'r-') 
 plt.axis([60, 400,10e-11,10e-4])
 ax.set_xticks([60, 80,100, 200, 300, 400])
 ax.get_xaxis().set_major_formatter(ScalarFormatter())
 plt.xlabel('Stress MPa')
 plt.ylabel('Minimum creep rate 1/s')
 legend = ax.legend(loc='upper left')
-plt.savefig('Creep_X20.png', format='png', dpi=1200)
+plt.savefig('Creep_X20.png', format='png', dpi=1200, bbox_inches='tight')
 plt.show()
 
 
