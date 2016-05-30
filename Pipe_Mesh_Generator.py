@@ -44,9 +44,9 @@ else:
     t = 29.0
     l = 1000.0
 
-    length = 5
-    thickness = 5
-    radial = 1
+    length = 6
+    thickness = 6
+    radial = 10
     
     section = 2
     r = 1.2

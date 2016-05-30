@@ -24,7 +24,7 @@ section = 2
 r = 1.4
 
 quad = 1
-reduced = 1
+reduced = 0
 
 direc = "Tests/"
 
@@ -37,7 +37,7 @@ if reduced == 1:
 else:
     interstr = "F"
 
-num_tests = 8
+num_tests = 1
 Dall_max = np.zeros((num_tests))
 Von_Mises_max = np.zeros((num_tests))
 PE_max = np.zeros((num_tests))
@@ -45,17 +45,17 @@ T = np.zeros((num_tests))
 
 for i in range(num_tests):
     start = time.time()
-    thickness = i + 2
+    thickness = i + 4
 
     pipe_mesh(direc,length, thickness, radial, section, r, quad, reduced)
     
     #meshfile = direc+"Mesh_" + str(length) + "x" + str(thickness) + "x" + str(2*radial) + "_" + elestr +interstr +".inp"
         
-    os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Calculix_PipeMesher/Tests/Test5")
+    os.system("/home/spookfish/CalculiXLauncher-02/bin/ccx29 /home/spookfish/Projects/Masters/Calculix_PipeMesher/Tests/Test7")
     #os.system("/home/stephen/Documents/CalculiXLauncher-02/bin/ccx29 /home/stephen/Projects/Calculix_PipeMesher/Tests/Test")
     print "\nSystem solved."
     
-    resultsfile = direc+'Test5.frd'
+    resultsfile = direc+'Test7.frd'
     selecttime = None
     
     timestamp,disps,temps,stresses,strains,pe = readfrd(resultsfile)
@@ -74,8 +74,10 @@ for i in range(num_tests):
     Principal_df = pd.DataFrame(Principal, columns=['Time', 'Node', 'P1','P2','P3'])
     
     Dall_max[i] = Dall_df.loc[Dall_df['Time'] == timestamp]['Utot'].max()
-    Von_Mises_max[i] = Von_Mises_df.loc[Von_Mises_df['Time'] == timestamp]['Von Mises Stress'].max()
-    PE_max[i] = PE_df.loc[PE_df['Time'] == timestamp]['PE'].max()
+#    Von_Mises_max[i] = Von_Mises_df.loc[Von_Mises_df['Time'] == timestamp]['Von Mises Stress'].max()
+#    PE_max[i] = PE_df.loc[PE_df['Time'] == timestamp]['PE'].max()
+    Von_Mises_max[i] = Von_Mises_df.loc[Von_Mises_df['Time'] == timestamp]['Von Mises Stress'].iloc[0]
+    PE_max[i] = PE_df.loc[PE_df['Time'] == timestamp]['PE'].iloc[0]
     
     end = time.time()
     T[i] = (end - start)
@@ -84,7 +86,11 @@ for i in range(num_tests):
         
 string_name_vm = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)+"_vm"
 string_name_pe = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)+"_pe"
+string_name_t = "Mesh_" + str(length) + "x" + "test" + "x" + str(n) + "_"+ elestr +interstr+"_"+str(r)+"_t"
 
-np.save(string_name_vm,Von_Mises_max,allow_pickle = True)
-np.save(string_name_pe,PE_max,allow_pickle = True)
+#np.save(string_name_vm,Von_Mises_max,allow_pickle = True)
+#np.save(string_name_pe,PE_max,allow_pickle = True)
+#np.save(string_name_t,T,allow_pickle = True)
+PE_plot = PE_df.loc[PE_df['Node'] == 1]
+PE_plot.to_pickle(string_name_pe + "_" + str(timestamp))
 

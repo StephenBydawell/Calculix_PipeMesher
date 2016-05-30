@@ -48,7 +48,7 @@ plt.xlabel('No. through thickness divisions')
 plt.ylabel('Von Mises Stress MPa')
 legend = plt.legend(loc='upper right', bbox_to_anchor=(1.5, 1))
 
-plt.savefig('VM_refinement.png', format='png', dpi=1200)
+plt.savefig('VM_refinement.png', format='png', dpi=1200, bbox_inches='tight')
 plt.show()
 
 string_name1 = 'Mesh_8xtestx20_C3D8R_1.0_pe.npy'
@@ -86,5 +86,40 @@ plt.xlabel('No. through thickness divisions')
 plt.ylabel('Creep Strain ')
 legend = plt.legend(loc='upper right', bbox_to_anchor=(1.5, 1))
 
-plt.savefig('PE_refinement.png', format='png', dpi=1200)
+plt.savefig('PE_refinement.png', format='png', dpi=1200, bbox_inches='tight')
+plt.show()
+
+string_name1 = 'Mesh_8xtestx20_C3D8R_1.0_t.npy'
+string_name2 = 'Mesh_8xtestx20_C3D8R_1.4_t.npy'
+string_name3 = 'Mesh_8xtestx20_C3D8F_1.0_t.npy'
+string_name4 = 'Mesh_8xtestx20_C3D8F_1.4_t.npy'
+string_name5 = 'Mesh_8xtestx20_C3D20R_1.0_t.npy'
+string_name6 = 'Mesh_8xtestx20_C3D20R_1.4_t.npy'
+string_name7 = 'Mesh_8xtestx20_C3D20F_1.0_t.npy'
+string_name8 = 'Mesh_8xtestx20_C3D20F_1.4_t.npy'
+
+y1 = np.load(string_name1,allow_pickle = True)
+y2 = np.load(string_name2,allow_pickle = True)
+y3 = np.load(string_name3,allow_pickle = True)
+y4 = np.load(string_name4,allow_pickle = True)
+y5 = np.load(string_name5,allow_pickle = True)
+y6 = np.load(string_name6,allow_pickle = True)
+y7 = np.load(string_name7,allow_pickle = True)
+y8 = np.load(string_name8,allow_pickle = True)
+
+plt.figure(3)
+plt.plot(x,y1, label='C3D8R; r = 1.0', lw=2)
+plt.plot(x,y2, label='C3D8R; r = 1.4', lw=2)
+plt.plot(x,y3, label='C3D8F; r = 1.0', lw=2)
+plt.plot(x,y4, label='C3D8F; r = 1.4', lw=2)
+plt.plot(x,y5, label='C3D20R; r = 1.0', lw=2)
+plt.plot(x,y6, label='C3D20R; r = 1.4', lw=2)
+plt.plot(x,y7, label='C3D20F; r = 1.0', lw=2)
+plt.plot(x,y8, label='C3D20F; r = 1.4', lw=2)
+
+plt.xlabel('No. through thickness divisions')
+plt.ylabel('Time to solve (s)')
+legend = plt.legend(loc='upper right', bbox_to_anchor=(1.5, 1))
+
+plt.savefig('T_refinement.png', format='png', dpi=1200, bbox_inches='tight')
 plt.show()

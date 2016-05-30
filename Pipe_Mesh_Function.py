@@ -23,7 +23,7 @@ def pipe_mesh(direc,length, thickness, radial, section = 0, r = 1.5, quad = 1, r
 
     ID = 250.0
     t = 29.0
-    l = 2000.0
+    l = 1000.0
 
     #length = 6
     #thickness = 5
